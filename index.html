@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brennan Bugbee</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0f;
+        }
+
+        body {
+            background: var(--bg-color);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            font-family: Geneva, monospace;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        a {
+            color: white;
+        }
+
+        h3,
+        h4,
+        h5 {
+            margin: 6px 0px;
+        }
+
+        hr {
+            margin: 40px 0px;
+        }
+
+        li {
+            padding-bottom: 4px;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 247, 255, 0.301);
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        #svg-container {
+            height: 100%;
+            box-sizing: border-box;
+            max-width: 1600px;
+            margin-right: auto;
+            margin-left: auto;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .scan-lines-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: repeating-linear-gradient(to bottom,
+                    var(--bg-color) 0px,
+                    var(--bg-color) 3px,
+                    rgba(255, 255, 255, 0) 3px,
+                    rgba(0, 0, 0, 0) 6px);
+            animation: scrollLines 0.5s linear infinite;
+            opacity: 0.15;
+            z-index: 100;
+        }
+
+        g[data-type="content-button"],
+        g[data-type="logo-button"]:hover {
+            cursor: pointer;
+        }
+
+        g[data-type="content-button"]:hover path {
+            fill-opacity: 1 !important;
+        }
+
+        g[data-type="content-button"]:hover tspan {
+            fill: var(--bg-color) !important;
+        }
+
+        g[data-type="logo-button"]:hover path {
+            fill: var(--bg-color) !important;
+        }
+
+        g[data-type="logo-button"]:hover circle {
+            fill-opacity: 1 !important;
+        }
+
+        .active-button tspan {
+            fill: var(--bg-color) !important;
+        }
+
+        .active-button path {
+            fill-opacity: 1 !important;
+        }
+
+        .card-container {
+            position: relative;
+            perspective: 200px;
+            perspective-origin: top center;
+            flex: 1;
+            height: 100%;
+            width: 100%;
+            font-size: 100%;
+        }
+
+        .card {
+            box-sizing: border-box;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: none;
+        }
+
+        .card-content {
+            height: 100%;
+            width: 100%;
+            overflow: auto;
+            transition: all 0.1s ease;
+            font-size: 140%;
+            padding-right: 20px;
+            box-sizing: border-box;
+            transition: font-size 0.1s linear;
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #888;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #f1f1f1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: white;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            border: 0;
+            background: white;
+            cursor: pointer;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            /* For Chrome, Safari, Edge */
+            appearance: none;
+            width: 180px;
+            height: 8px;
+            background: transparent;
+        }
+
+        /* Track (the bar) */
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            background: grey;
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-moz-range-track {
+            height: 8px;
+            background: grey;
+            border-radius: 4px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: -7px;
+            border: none;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: -7px;
+            border: none;
+        }
+
+        /* Animation for vertical scrolling */
+        @keyframes scrollLines {
+            from {
+                background-position-y: 0;
+            }
+
+            to {
+                background-position-y: 6px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="text-content" class="card-container">
+        <div class="card">
+            <div class="card-content">
+                <section>
+                    <h3>Games</h3>
+                    <p>I tend to leave a lot of projects unfinished, but hopefully I can change that as I improve my
+                        skills. I currently only have one published game and another I am committed to publishing.</p>
+                    <p>
+                    <ul>
+                        <li>
+                            <h4><a href="https://pong3d.z13.web.core.windows.net/" target="_blank">Pong 3D</a></h4>
+                        </li>
+                        A classic game re-imagined.
+                        </p>
+                        <li>
+                            <p>
+                            <h4>(Untitled) Arcade Game</h4>
+                        </li>
+                        You control a hoard of mice and navigate a dangerous world in order to collect.. more mice!
+                        </p>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-content">
+                <section>
+                    <h3>University of Massachussets Boston</h3>
+                    <h4>Masters Data Analytics</h4>
+                    <h4>2018 - 2019</h4>
+                    <div>&nbsp;</div>
+                    <span>Areas of study:</span>
+                    <ul>
+                        <li>SQL</li>
+                        <li>Linear regression</li>
+                        <li>Linear algebra</li>
+                        <li>Cloud services</li>
+                    </ul>
+                </section>
+                <hr>
+                <section>
+                    <h3>University of Vermont</h3>
+                    <h4>Bachelors Environmental Science</h4>
+                    <h4>2012-2016</h4>
+                    <div>&nbsp;</div>
+                    <span>Areas of study:</span>
+                    <ul>
+                        <li>Environmental science</li>
+                        <li>Organic Chemistry</li>
+                        <li>Inorganic Chemistry</li>
+                        <li>Chemical Instrumentation</li>
+                        <li>Biology</li>
+                        <li>History (Minor)</li>
+                    </ul>
+                </section>
+                <hr>
+                <section>
+                    <h3>Youtube</h3>
+                    <p>Seriously, you can learn anything on Youtube.</p>
+                </section>
+            </div>
+        </div>
+        <div class="card" id="work">
+            <div class="card-content">
+                <section>
+                    <h3>Polly Insurance</h3>
+                    <h4>Senior Software Engineer</h4>
+                    <h4>2020 - Present</h4>
+                    <div>&nbsp;</div>
+                    <span>Duties:</span>
+                    <ul>
+                        <li>Build web APIs and background services written in C#.</li>
+                        <li>Build front-end clients written in TypeScript React.</li>
+                        <li>Develop and maintain DevOps pipelines.</li>
+                        <li>Review PRs.</li>
+                        <li>Help plan feature work.</li>
+                        <li>QA test features.</li>
+                    </ul>
+                    <span>Notable Achievements:</span>
+                    <ul>
+                        <li>Built a LLM chat bot backed by a vector database (RAG) to assist our insurance agents in
+                            answering
+                            complex insurance questions in real-time. The search index is automatically updated weekly.
+                        </li>
+                        <li>Built a data pipeline for transcribing call recordings and performing QA call analysis with
+                            an
+                            LLM,
+                            providing the call center with valuable performance metrics.</li>
+                        <li>Ported an entire legacy PHP web app to a modern Typescript React app with React Query, React
+                            Router,
+                            and
+                            Material UI.</li>
+                        <li>Won an award in 5 consecutive annual company hackathons.</li>
+                    </ul>
+                </section>
+                <hr>
+                <section>
+                    <h3>Data Analysis Bootcamp TA</h3>
+                    <h4>Trilogy Education</h4>
+                    <h4>2020</h4>
+                    <div>&nbsp;</div>
+                    <span>Duties:</span>
+                    <ul>
+                        <li>Assist with in-class lectures.</li>
+                        <li>Assist students with homework.</li>
+                        <li>Help curate teaching material and lesson plans.</li>
+                        <li>Provide one-on-one assistance during weekends.</li>
+                    </ul>
+                </section>
+                <hr>
+                <section>
+                    <h3>Sample Management</h3>
+                    <h4>Endyne Labs</h4>
+                    <h4>2016 - 2018</h4>
+                    <div>&nbsp;</div>
+                    <span>Duties:</span>
+                    <ul>
+                        <li>Receive, ship, and organize water and soil test samples.</li>
+                        <li>Manage inventory of all testing supplies for the entire lab.</li>
+                        <li>Coordinate logistics for large projects with clients.</li>
+                        <li>Provide guidance and training for customers and clients on proper sampling protocol.</li>
+                        <li>Perform basic sample prep and wet chemistry analysis.</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <div class="card" id="about">
+            <div class="card-content">
+                <section>
+                    <h2>Hello!</h2>
+                    <p>I am a software engineer, web designer, and game designer.</p>
+                    <p> Some of my skills include:
+                    <ul>
+                        <li>Backend development</li>
+                        <li>Frontend development</li>
+                        <li>Devops</li>
+                        <li>Data anaylsis</li>
+                        <li>Simple 3D modeling</li>
+                        <li>Unity game engine</li>
+                    </ul>
+                    </p>
+                    <p>In addition, I love to hike, ski, study Japanese, play chess, and watch TV and movies.</p>
+                    <p>Click the other menu options to learn more about my educational/professional experience. For
+                        professional inquiries, please contact me at <a
+                            href="mailto:bugbeeb@gmail.com">bugbeeb@gmail.com</a>.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+    <input type="range" min="1" max="1.5" value="1" step="0.1" id="slider">
+    <div class="scan-lines-overlay"></div>
+    <div id="svg-container">
+    </div>
+</body>
+
+<script>
+    const textContent = document.getElementById('text-content')
+    const cards = Array.from(textContent.children).reverse();
+
+    const selectTab = (index) => {
+        cards.forEach((card, i) => {
+            if (i == index) {
+                card.style.display = 'block'
+            } else {
+                card.style.display = 'none'
+            }
+        })
+    }
+
+    const createSvgChildFromPlaceholder = (svg, id, contentElement) => {
+        const rect = svg.getElementById(id);
+        rect.style.opacity = 0;
+
+        const x = parseFloat(rect.getAttribute('x'));
+        const y = parseFloat(rect.getAttribute('y'));
+        const width = parseFloat(rect.getAttribute('width'));
+        const height = parseFloat(rect.getAttribute('height'));
+
+        // Create the foreignObject
+        const fo = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+        fo.setAttribute('x', x);
+        fo.setAttribute('y', y);
+        fo.setAttribute('width', width);
+        fo.setAttribute('height', height);
+        fo.style.overflow = 'visible'
+
+        // Outer wrapper matches the foreignObject size
+        const wrapper = document.createElement('div');
+        wrapper.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+        wrapper.style.display = 'flex';
+        wrapper.style.justifyContent = 'center';
+        wrapper.style.alignItems = 'center';
+        wrapper.style.height = '100%';
+        wrapper.style.width = '100%';
+
+        wrapper.appendChild(contentElement);
+        fo.appendChild(wrapper);
+        svg.appendChild(fo);
+
+        buttons = [
+            document.getElementById("about-button"),
+            document.getElementById("work-button"),
+            document.getElementById("education-button"),
+            document.getElementById("games-button")
+        ]
+
+        buttons.forEach((button, index) => {
+            button.addEventListener("click", () => {
+                selectTab(index)
+                buttons.forEach((b, j) => {
+                    if (index == j) {
+                        b.classList.add("active-button")
+                    } else {
+                        b.classList.remove("active-button")
+                    }
+                })
+            })
+        })
+
+        buttons[0].classList.add("active-button")
+
+        document.getElementById("linked-in").addEventListener("click", () => window.open("https://www.linkedin.com/in/brennan-bugbee-22029583/", "_blank"))
+        document.getElementById("chess").addEventListener("click", () => window.open("https://www.chess.com/member/bugbeeb", "_blank"))
+
+        return wrapper;
+    };
+
+    fetch('border1.svg')
+        .then(res => res.text())
+        .then(svgText => {
+            document.getElementById('svg-container').innerHTML = svgText;
+            const svg = document.getElementsByTagName('svg')[0];
+            svg.style.height = '100%';
+            svg.style.width = '100%';
+
+            const video = document.createElement('video');
+
+            // Check if browser is Safari
+            const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+            // If Safari, use MP4 fallback (no transparency)
+            video.src = isSafari ? 'globe.mp4' : 'globe.webm';
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.style.width = '100%';
+            video.style.height = '100%';
+            video.style.objectFit = 'cover';
+            video.style.display = 'block';
+
+            createSvgChildFromPlaceholder(svg, 'globe-box', video)
+
+            const slider = document.getElementById("slider")
+            createSvgChildFromPlaceholder(svg, 'char-slider', slider)
+            slider.addEventListener('input', () => {
+                const scale = slider.value * 100;
+                textContent.style.fontSize = `${scale}%`;
+            });
+
+            createSvgChildFromPlaceholder(svg, 'text-content', textContent)
+            document.getElementById('svg-container').style.opacity = 1;
+            selectTab(0);
+        });
+</script>
+
+</html>
