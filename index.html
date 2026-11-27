@@ -250,7 +250,7 @@
         const START_TEXT = {
             x: 700, y: 400,
             header: "Hello!",
-            body: "My name is Brennan. Welcome to my site.",
+            body: "My name is Brennan. Welcome to my site!",
             subtext: "Click to continue",
         };
 
@@ -271,7 +271,7 @@
                 text: {
                     x: 160, y: 500,
                     header: "About me",
-                    body: "I'm a software engineer interested in the creative possibilities of technology.",
+                    body: "I'm a software engineer who also enjoys exploring the creative side of technology.",
                     subtext: "Click to continue",
                 },
             },
@@ -280,7 +280,7 @@
                 text: {
                     x: 1100, y: 500,
                     header: "What I do",
-                    body: "I design and build full-stack applications, backend systems, and interactive 3D experiences including games and simple animations.",
+                    body: "I design and build full-stack applications, backend systems, and interactive 3D experiences.",
                     subtext: "Click to continue",
                 },
             },
@@ -301,17 +301,10 @@
         // Frame rate of the renders; used to start the next clip on the current clip's last frame.
         const FPS = 24;
 
-        // Played once after the last section's loop is clicked; the sequence fades out to the
-        // end screen as it finishes.
-        const OUTRO = "d";
-
-        const steps = [
-            ...SECTIONS.flatMap(s => [
-                { src: `videos/${s.name}.mp4`, loop: false },
-                { src: `videos/${s.loopName}.mp4`, loop: true, text: s.text },
-            ]),
-            { src: `videos/${OUTRO}.mp4`, loop: false },
-        ];
+        const steps = SECTIONS.flatMap(s => [
+            { src: `videos/${s.name}.mp4`, loop: false },
+            { src: `videos/${s.loopName}.mp4`, loop: true, text: s.text },
+        ]);
 
         const stage = document.getElementById("stage");
         const caption = document.getElementById("caption");
@@ -321,7 +314,7 @@
         let step = 0;             // which entry in `steps` is playing
 
         // ?step=N jumps straight to steps[N] and starts playing without a click, for testing.
-        // 0 = a, 1 = a-loop, 2 = b, 3 = b-loop, 4 = c, 5 = c-loop, 6 = d.
+        // 0 = a, 1 = a-loop, 2 = b, 3 = b-loop, 4 = c, 5 = c-loop.
         const stepParam = new URLSearchParams(location.search).get("step");
         const START_STEP = stepParam === null ? null
             : Math.min(Math.max(Math.floor(Number(stepParam)) || 0, 0), steps.length - 1);
